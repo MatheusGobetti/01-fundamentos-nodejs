@@ -1,5 +1,6 @@
 import http from 'node:http';
 import { json } from './middlewares/json.js';
+import { routes } from './routes.js';
 
 const server = http.createServer(async (request, response) => {
   const { method, url } = request;
@@ -11,10 +12,10 @@ const server = http.createServer(async (request, response) => {
   })
 
   if (route) {
-    route.handler(request, response);
+    return route.handler(request, response);
   }
 
-  return response.writeHead(404).end('Not Found');
+  return response.writeHead(404).end();
 });
 
 server.listen(3333);
