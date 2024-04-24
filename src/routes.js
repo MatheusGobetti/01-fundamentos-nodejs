@@ -9,7 +9,9 @@ export const routes = [
     method: 'GET',
     path: buildRoutePath('/users'),
     handler: (request, response) => {
+
       const users = database.select('users');
+
       return response.end(JSON.stringify(users));
     }
   },
@@ -17,6 +19,7 @@ export const routes = [
     method: 'POST',
     path: buildRoutePath('/users'),
     handler: (request, response) => {
+
       const { name, email } = request.body;
 
       const user = {
@@ -26,6 +29,7 @@ export const routes = [
       };
 
       database.insert('users', user);
+
       return response.writeHead(201).end();
     }
   },
@@ -33,7 +37,12 @@ export const routes = [
     method: 'DELETE',
     path: buildRoutePath('/users/:id'),
     handler: (request, response) => {
-      return response.end();
+
+      const { id } = request.params;
+
+      database.delete('users', id);
+
+      return response.writeHead(204).end();
     },
   }
 ]
